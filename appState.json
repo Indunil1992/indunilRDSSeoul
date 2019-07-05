@@ -23,7 +23,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "indunilRDSSeoul/lambda.js",
-        "code": "let SL_AWS = require('slappforge-sdk-aws');\nlet connectionManager = require('./ConnectionManager');\nconst rds = new SL_AWS.RDS(connectionManager);\n\nexports.handler = function (event, context, callback) {\n\n\n    // You must always end/destroy the DB connection after it's used\n    rds.beginTransaction({\n        instanceIdentifier: 'DBinstance'\n    }, function (error, connection) {\n        if (error) {\n            throw error;\n        }\n    });\n\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
+        "code": "let SL_AWS = require('slappforge-sdk-aws');\nlet connectionManager = require('./ConnectionManager');\nconst rds = new SL_AWS.RDS(connectionManager);\n\nexports.handler = function (event, context, callback) {\n\n\n    // You can pass the existing connection to this function.\n    // A new connection will be created if it's not present as the third param \n    // You must always end/destroy the DB connection after it's used\n    rds.query({\n        instanceIdentifier: 'instance',\n        query: 'CREATE TABLE Persons (     PersonID int,     LastName varchar(255),     FirstName varchar(255),     Address varchar(255),     City varchar(255)  );',\n        inserts: [\"raj\", \"ind\", \"142\", \"Kandy\"]\n    }, function (error, results, connection) {\n        if (error) {\n            console.log(\"Error occurred\");\n            throw error;\n        } else {\n            console.log(\"Success\")\n            console.log(results);\n        }\n\n        connection.end();\n    });\n\n\n\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
         "config": {
           "runtime": "nodejs8.10",
           "handler": "handler",
@@ -42,7 +42,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "indunilRDSSeoul/ConnectionManager.js",
-        "code": "module.exports = function() {\n    this.dbConnections = [];\n\n    this.dbConnections[\"DBinstance\"] = {\n        host: process.env.EndPoint_rdsDBinstance,\n        port: process.env.Port_rdsDBinstance,\n        user: process.env.User_rdsDBinstance,\n        password: process.env.Password_rdsDBinstance,\n        database: \"indunil\"\n    };\n};"
+        "code": "module.exports = function() {\n    this.dbConnections = [];\n\n    this.dbConnections[\"instance\"] = {\n        host: process.env.EndPoint_rdsInstance,\n        port: process.env.Port_rdsInstance,\n        user: process.env.User_rdsInstance,\n        password: process.env.Password_rdsInstance,\n        database: \"indunil\"\n    };\n};"
       }
     },
     "deletedFiles": [],
@@ -52,12 +52,12 @@
     ],
     "currentFileId": "0ec35ab9-6af7-4f9b-933d-fc5846240afd",
     "resources": {
-      "rds-DBinstance": {
-        "name": "rds-DBinstance",
+      "rds-instance": {
+        "name": "rds-instance",
         "type": "RDS",
         "config": {
           "editMode": false,
-          "operation": 1,
+          "operation": 0,
           "rdsInstance": {
             "rdsEngineType": "mysql",
             "rdsEdition": "",
@@ -67,7 +67,7 @@
               "dbEngineVersion": "5.7.19"
             },
             "rdsSetting": {
-              "instanceIdentifier": "DBinstance",
+              "instanceIdentifier": "instance",
               "masterUsername": "indunil",
               "masterPassword": "Sachithra142"
             },
@@ -86,8 +86,8 @@
           "mode": 0,
           "additionalFiles": [],
           "params": {
-            "query": "",
-            "inserts": ""
+            "query": "CREATE TABLE Persons (     PersonID int,     LastName varchar(255),     FirstName varchar(255),     Address varchar(255),     City varchar(255)  );",
+            "inserts": "\"raj\",\"ind\",\"142\",\"Kandy\""
           },
           "isGlobalEditMode": false,
           "enableInject": true,
@@ -128,7 +128,7 @@
     "projectRegion": "ap-northeast-2",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1562309456192
+    "lastSave": 1562310121165
   },
   "VCS_STATE": {
     "provider": "GitHub",

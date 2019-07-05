@@ -1,11 +1,11 @@
 module.exports = function() {
     this.dbConnections = [];
 
-    this.dbConnections["DBinstance"] = {
-        host: process.env.EndPoint_rdsDBinstance,
-        port: process.env.Port_rdsDBinstance,
-        user: process.env.User_rdsDBinstance,
-        password: process.env.Password_rdsDBinstance,
+    this.dbConnections["instance"] = {
+        host: process.env.EndPoint_rdsInstance,
+        port: process.env.Port_rdsInstance,
+        user: process.env.User_rdsInstance,
+        password: process.env.Password_rdsInstance,
         database: "indunil"
     };
 };
