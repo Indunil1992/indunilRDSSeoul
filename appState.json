@@ -1,0 +1,140 @@
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "83d73172-0d5c-44ed-988b-4d98d2bde561": {
+        "id": "83d73172-0d5c-44ed-988b-4d98d2bde561",
+        "parent": null,
+        "name": "indunilRDSSeoul",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "0ec35ab9-6af7-4f9b-933d-fc5846240afd",
+          "0d21a248-e622-4f2a-b7f2-d907a9bf353c"
+        ],
+        "isRemovable": false,
+        "filePath": "indunilRDSSeoul"
+      },
+      "0ec35ab9-6af7-4f9b-933d-fc5846240afd": {
+        "id": "0ec35ab9-6af7-4f9b-933d-fc5846240afd",
+        "parent": "83d73172-0d5c-44ed-988b-4d98d2bde561",
+        "name": "lambda.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "indunilRDSSeoul/lambda.js",
+        "code": "let SL_AWS = require('slappforge-sdk-aws');\nlet connectionManager = require('./ConnectionManager');\nconst rds = new SL_AWS.RDS(connectionManager);\n\nexports.handler = function (event, context, callback) {\n\n\n    // You must always end/destroy the DB connection after it's used\n    rds.beginTransaction({\n        instanceIdentifier: 'DBinstance'\n    }, function (error, connection) {\n        if (error) {\n            throw error;\n        }\n    });\n\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
+        "config": {
+          "runtime": "nodejs8.10",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "triggers": []
+      },
+      "0d21a248-e622-4f2a-b7f2-d907a9bf353c": {
+        "id": "0d21a248-e622-4f2a-b7f2-d907a9bf353c",
+        "parent": "83d73172-0d5c-44ed-988b-4d98d2bde561",
+        "name": "ConnectionManager.js",
+        "type": "JS_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "indunilRDSSeoul/ConnectionManager.js",
+        "code": "module.exports = function() {\n    this.dbConnections = [];\n\n    this.dbConnections[\"DBinstance\"] = {\n        host: process.env.EndPoint_rdsDBinstance,\n        port: process.env.Port_rdsDBinstance,\n        user: process.env.User_rdsDBinstance,\n        password: process.env.Password_rdsDBinstance,\n        database: \"indunil\"\n    };\n};"
+      }
+    },
+    "deletedFiles": [],
+    "rootNode": "83d73172-0d5c-44ed-988b-4d98d2bde561",
+    "openFiles": [
+      "0ec35ab9-6af7-4f9b-933d-fc5846240afd"
+    ],
+    "currentFileId": "0ec35ab9-6af7-4f9b-933d-fc5846240afd",
+    "resources": {
+      "rds-DBinstance": {
+        "name": "rds-DBinstance",
+        "type": "RDS",
+        "config": {
+          "editMode": false,
+          "operation": 1,
+          "rdsInstance": {
+            "rdsEngineType": "mysql",
+            "rdsEdition": "",
+            "rdsInstanceSpec": {
+              "dbInstanceClass": "db.t2.micro",
+              "dbLicenseModel": "general-public-license",
+              "dbEngineVersion": "5.7.19"
+            },
+            "rdsSetting": {
+              "instanceIdentifier": "DBinstance",
+              "masterUsername": "indunil",
+              "masterPassword": "Sachithra142"
+            },
+            "rdsDBOptions": {
+              "dbName": "indunil",
+              "dbPort": "3306"
+            },
+            "rdsInstanceArn": "",
+            "Host": "",
+            "doesExist": false,
+            "initializationQuery": "",
+            "alreadyDeployed": false
+          },
+          "rdsInstanceResources": [],
+          "projectRegion": "ap-northeast-2",
+          "mode": 0,
+          "additionalFiles": [],
+          "params": {
+            "query": "",
+            "inserts": ""
+          },
+          "isGlobalEditMode": false,
+          "enableInject": true,
+          "isNewFromGlobal": false
+        }
+      }
+    },
+    "customTemplate": {
+      "dialect": null,
+      "definitions": {}
+    },
+    "envVariables": [
+      {
+        "lambdaId": "all",
+        "varKey": "SIGMA_AWS_ACC_ID",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
+      }
+    ],
+    "packageJSON": {
+      "dependencies": {
+        "slappforge-sdk-aws": {
+          "name": "slappforge-sdk-aws",
+          "language": "javascript",
+          "version": "0.0.5",
+          "dev": false,
+          "notRemovable": false
+        }
+      }
+    }
+  },
+  "PROJECT_META": {
+    "projectName": "indunilRDSSeoul",
+    "projectDescription": "Seoul",
+    "projectVersion": "1.0.0",
+    "projectRegion": "ap-northeast-2",
+    "platform": "AWS",
+    "platformRegions": {},
+    "lastSave": 1562309456192
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "indunilRDSSeoul",
+      "url": "https://github.com/Indunil1992/indunilRDSSeoul"
+    }
+  }
+}
